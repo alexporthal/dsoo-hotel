@@ -1,0 +1,51 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <section id="testimonial">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2">
+
+                    <div id="carousel-testimonial" class="carousel slide text-center" data-ride="carousel">
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active">
+                                <p>
+                                    <h:outputLink value="#{facesContext.externalContext.requestContextPath}" >
+                                        <img class="img-circle img-thumbnail" src='#{resource["assets/theme/images/testimonial/01.jpg"]}' alt="" />
+                                    </h:outputLink>
+                                </p>
+                                <h4>Maria Silva</h4>
+                                <small>Gerente de Negócios Grupo do Sul</small>
+                                <p>Atendimento nota mil, espero poder voltar o mais rápido possível.</p>
+                            </div>
+                            <div class="item">
+                                <p>
+                                    <h:outputLink value="#{facesContext.externalContext.requestContextPath}" >
+                                        <img class="img-circle img-thumbnail" src='#{resource["assets/theme/images/testimonial/02.jpg"]}' alt="" />
+                                    </h:outputLink>
+                                </p>
+                                <h4>Wanessa Brasil</h4>
+                                <small>Juíza Federal</small>
+                                <p>Segurança e tranquilidade para poder passar as férias com minha família. Com certeza recomendo o Hotel DSOO.</p>
+                            </div>
+                        </div>
+
+                        <!-- Controls -->
+                        <div class="btns">
+                            <a class="btn btn-primary btn-sm" href="#carousel-testimonial" role="button" data-slide="prev">
+                                <span class="fa fa-angle-left" aria-hidden="true"></span>
+                                <span class="sr-only">Anterior</span>
+                            </a>
+                            <a class="btn btn-primary btn-sm" href="#carousel-testimonial" role="button" data-slide="next">
+                                <span class="fa fa-angle-right" aria-hidden="true"></span>
+                                <span class="sr-only">Próximo</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!--/#testimonial-->
+
+</html>
