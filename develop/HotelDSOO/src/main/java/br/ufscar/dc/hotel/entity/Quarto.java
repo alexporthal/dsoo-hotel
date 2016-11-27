@@ -51,6 +51,11 @@ public class Quarto implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 140)
+    @Column(name = "nome")
+    private String nome;    
+    @Basic(optional = false)
+    @NotNull
     @Size(min = 1, max = 2048)
     @Column(name = "descricao")
     private String descricao;
@@ -90,8 +95,9 @@ public class Quarto implements Serializable {
         this.id = id;
     }
 
-    public Quarto(Integer id, String descricao, int tipo, String numero, int capacidade, int andar, boolean ocupado, BigDecimal valorDiaria) {
+    public Quarto(Integer id, String nome, String descricao, int tipo, String numero, int capacidade, int andar, boolean ocupado, BigDecimal valorDiaria) {
         this.id = id;
+        this.nome = nome;
         this.descricao = descricao;
         this.tipo = tipo;
         this.numero = numero;
@@ -109,6 +115,14 @@ public class Quarto implements Serializable {
         this.id = id;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
     public String getDescricao() {
         return descricao;
     }

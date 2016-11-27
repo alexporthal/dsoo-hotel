@@ -13,6 +13,8 @@ import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 /**
  *
@@ -45,7 +47,8 @@ public class ReservaSession {
         try {
             Criteria criteria = this.myPersistence.getCriteria(Quarto.class);
 
-            list = (List<Quarto>) criteria.list();
+            list = (List<Quarto>) criteria.add(Restrictions.eq("ocupado", false)).
+                    addOrder(Order.asc("nome")).list();
         } catch (Exception e) {
             e.printStackTrace();
         }

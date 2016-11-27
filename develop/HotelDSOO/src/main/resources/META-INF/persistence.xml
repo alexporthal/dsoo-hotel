@@ -3,7 +3,12 @@
   <persistence-unit name="HotelDsooPU" transaction-type="JTA">
     <jta-data-source>java:/HotelDsooDS</jta-data-source>
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
-    
+    <class>br.ufscar.dc.hotel.entity.Cidade</class>
+    <class>br.ufscar.dc.hotel.entity.Cliente</class>
+    <class>br.ufscar.dc.hotel.entity.Estado</class>
+    <class>br.ufscar.dc.hotel.entity.Pais</class>
+    <class>br.ufscar.dc.hotel.entity.Quarto</class>
+    <class>br.ufscar.dc.hotel.entity.Reserva</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="hibernate.hbm2ddl.auto" value="update"/>

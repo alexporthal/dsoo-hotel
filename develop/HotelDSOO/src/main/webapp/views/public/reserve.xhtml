@@ -1,5 +1,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <section id="cta" class="wow fadeIn">
         <div class="container">
@@ -9,37 +11,29 @@
             </div>
 
             <div class="row">
-                <form class="form-inline">
+                <h:form id="formPesquisaReserva" class="form-inline">
                     <center>
                         <div class="form-group">
-                            <label for="chegada" class="col-3 control-label">Chegada</label>
+                            <p:outputLabel value="Chegada" for="chegada" />
                             <div class="col-3">
-                                <input type="date" class="form-control" id="chegada" name="chegada"/>
+                                <p:calendar tabindex="0"
+                                            styleClass="form-control-two"
+                                            required="true"
+                                            id="chegada"
+                                            value="#{reservaMBean.filtroReservaChegada}" 
+                                            requiredMessage="Data Chegada obrigatório"
+                                            pattern="dd/MM/yyyy"
+                                            autocomplete="off"
+                                            mask="true"/>
+                                <h:message for="chegada" class="help-block with-errors label label-danger" />
                             </div>
-                        </div> 
+                        </div>
                         <div class="form-group">
                             <label for="saida" class="col-3 control-label">Saída</label>
                             <div class="col-3">
                                 <input type="date" class="form-control" id="saida" name="saida"/>
                             </div>
-                        </div> 
-                        <div class="form-group">
-                            <label for="quartos" class="col-3 control-label">Quartos</label>
-                            <div class="col-1">
-                                <select class="form-control" id="quartos" name="quartos">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                </select>
-                            </div>
-                        </div> 
+                        </div>                        
                         <div class="form-group">
                             <label for="pessoas" class="col-3 control-label">Pessoas</label>
                             <div class="col-1">
@@ -59,7 +53,67 @@
                         </div>
                         <button class="btn btn-primary">Buscar</button>
                     </center>
-                </form>
+                </h:form>
+
+                <br/>
+
+                <p:panel>
+                    <h:form id="formQuartosParaReserva" >
+                        <!--Table-->
+                        <p:dataTable id="tabelaPesquisa" widgetVar="tblRegistro" var="object" value="#{reservaMBean.buscarQuartosVagos()}" 
+                                     selectionMode="single" rowKey="#{object.id}" styleClass="styledatatable" rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,25,50,100,500" emptyMessage="Nenhum quarto disponível para reserva na data informada." 
+                                     currentPageReportTemplate="(Pág. {currentPage}/{totalPages} - {totalRecords} quartos)"
+                                     draggableColumns="true" >
+                            <f:facet name="header">
+                                <p style="color: red;">QUARTOS DISPONÍVEIS PARA RESERVA</p>
+                                <br/>
+                            </f:facet>
+
+
+                            <p:column headerText="Foto" width="30%">
+                                <p:panel>
+                                    <img src='#{resource["assets/images/semfoto.gif"]}' alt="" width="100%" height="200px"/>
+                                </p:panel>
+                            </p:column>
+
+                            <p:column headerText="Quarto" width="40%">
+                                <strong><h:outputText value="#{object.nome}" /></strong>
+
+                                <br/><br/>
+                                <h:outputText value="#{object.descricao}" />
+                                <br/><br/>
+                                <h:outputText value="Capacidade: #{object.capacidade} pessoa(s)" />
+                                <br/>
+                                <h:outputText value="Andar: #{object.andar}º" />
+                                <br/>
+                                <h:outputText value="Tipo: Simples" rendered="#{object.tipo == 0}" />
+                                <h:outputText value="Tipo: Luxo" rendered="#{object.tipo == 1}" />
+                                <br/><br/>
+                            </p:column>
+
+                            <p:column headerText="Diária" width="15%">
+                                <strong><h:outputText value="#{object.valorDiaria}" class="pull-right"
+                                                      style="text-align: right;">
+                                        <f:convertNumber pattern="#,###.##" minFractionDigits="2" currencySymbol="R$"/>
+                                    </h:outputText> 
+                                </strong>
+                            </p:column>
+
+                            <p:column headerText=" " width="15%">
+                                <p:commandLink id="btnReserva"
+                                               class="btn btn-danger"
+                                               actionListener="#{reservaMBean.reservarQuarto(object)}" 
+                                               style="color: white;">
+                                    <i class="fa fa-check"></i>&#160;&#160;RESERVAR
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                        <!--Table End-->
+
+                    </h:form>
+                </p:panel>
             </div>
         </div>
     </section><!--/#cta-->
