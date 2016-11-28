@@ -8,6 +8,7 @@ package br.ufscar.dc.hotel.bean;
 import br.ufscar.dc.hotel.ejb.ReservaSession;
 import br.ufscar.dc.hotel.entity.Quarto;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
@@ -23,10 +24,30 @@ import javax.inject.Named;
 public class ReservaMBean implements Serializable {
     
     private Date filtroReservaChegada;
+    private Date filtroReservaSaida;
+    private int filtroNumeroPessoas;
+    private List<Quarto> quartosParaReserva;
 
     @EJB
     private ReservaSession reservaSession;
+    
+    public ReservaMBean(){
+        this.quartosParaReserva = new ArrayList<>();
+        this.filtroNumeroPessoas = 1;
+        this.filtroReservaChegada = new Date();
+        this.filtroReservaSaida = new Date();                
+    }
+    
+    public void pesquisarReserva() {
+        this.quartosParaReserva = reservaSession.buscarQuartosVagos();
+    }
+    
+    public void reservarQuarto(Quarto quarto) {
 
+    }
+
+    //<editor-fold defaultstate="collapsed" desc="Get/Set">    
+    
     /**
      * @return the reservaSession
      */
@@ -39,14 +60,6 @@ public class ReservaMBean implements Serializable {
      */
     public void setReservaSession(ReservaSession reservaSession) {
         this.reservaSession = reservaSession;
-    }
-
-    public List<Quarto> buscarQuartosVagos() {
-        return reservaSession.buscarQuartosVagos();
-    }
-
-    public void reservarQuarto(Quarto quarto) {
-
     }
 
     /**
@@ -63,4 +76,47 @@ public class ReservaMBean implements Serializable {
         this.filtroReservaChegada = filtroReservaChegada;
     }
 
+    /**
+     * @return the filtroReservaSaida
+     */
+    public Date getFiltroReservaSaida() {
+        return filtroReservaSaida;
+    }
+
+    /**
+     * @param filtroReservaSaida the filtroReservaSaida to set
+     */
+    public void setFiltroReservaSaida(Date filtroReservaSaida) {
+        this.filtroReservaSaida = filtroReservaSaida;
+    }
+
+    /**
+     * @return the filtroNumeroPessoas
+     */
+    public int getFiltroNumeroPessoas() {
+        return filtroNumeroPessoas;
+    }
+
+    /**
+     * @param filtroNumeroPessoas the filtroNumeroPessoas to set
+     */
+    public void setFiltroNumeroPessoas(int filtroNumeroPessoas) {
+        this.filtroNumeroPessoas = filtroNumeroPessoas;
+    }
+
+    /**
+     * @return the quartosParaReserva
+     */
+    public List<Quarto> getQuartosParaReserva() {
+        return quartosParaReserva;
+    }
+
+    /**
+     * @param quartosParaReserva the quartosParaReserva to set
+     */
+    public void setQuartosParaReserva(List<Quarto> quartosParaReserva) {
+        this.quartosParaReserva = quartosParaReserva;
+    }
+    //</editor-fold>
+    
 }
