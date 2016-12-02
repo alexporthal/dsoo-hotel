@@ -8,6 +8,7 @@ package br.ufscar.dc.hotel.ejb;
 import br.ufscar.dc.hotel.core.MyPersistence;
 import br.ufscar.dc.hotel.entity.Quarto;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
@@ -41,7 +42,7 @@ public class ReservaSession {
         this.myPersistence = myPersistence;
     }
 
-    public List<Quarto> buscarQuartosVagos() {
+    public List<Quarto> buscarQuartosVagos(Date chegada, Date saida, int nroPessoas, int tipoQuarto) {
         List<Quarto> list = new ArrayList<Quarto>();
 
         try {

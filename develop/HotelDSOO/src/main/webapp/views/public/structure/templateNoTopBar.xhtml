@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta charset="UTF-8"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <meta name="description" content="HotelDSOO - UFSCar" />
+            <meta name="author" content="Alex Malmann Becker" />
+        </f:facet>
+
+        <title>HotelDSOO - UFSCar</title>
+
+        <!-- core CSS -->
+        <h:outputStylesheet name="theme/css/bootstrap.min.css" library="assets" />
+        <h:outputStylesheet name="theme/css/font-awesome.min.css" library="assets" />
+        <h:outputStylesheet name="theme/css/animate.min.css" library="assets" />
+        <h:outputStylesheet name="theme/css/owl.carousel.css" library="assets" />
+        <h:outputStylesheet name="theme/css/owl.transitions.css" library="assets" />
+        <h:outputStylesheet name="theme/css/prettyPhoto.css" library="assets" />
+        <h:outputStylesheet name="theme/css/main.css" library="assets" />
+        <h:outputStylesheet name="theme/css/responsive.css" library="assets" />
+        <h:outputStylesheet name="css/datatable.css" library="assets" />
+
+        <!--[if lt IE 9]>
+        <h:outputStylesheet name="theme/js/html5shiv.js" library="assets" />
+        <h:outputStylesheet name="theme/js/respond.min.js" library="assets" />
+        <![endif]-->       
+
+        <f:facet name="last">
+            <h:outputStylesheet name="css/main.css" library="assets" />
+        </f:facet>
+
+        <ui:insert name="head" />
+    </h:head>
+
+    <h:body id="home" class="homepage">
+
+        <header id="header">
+            <nav id="main-menu" class="navbar navbar-default navbar-fixed-top" role="banner">
+                <div class="container">
+                    <div class="navbar-header">
+                        <h:outputLink value="#{facesContext.externalContext.requestContextPath}" >
+                            <img class="navbar-brand" id="logo" src='#{resource["assets/images/logo.png"]}' alt="logo" />
+                        </h:outputLink>
+                    </div>                    
+                </div><!--/.container-->
+            </nav><!--/nav-->
+        </header><!--/header-->   
+
+        <ui:insert name="content">
+            Template
+        </ui:insert>
+
+        <ui:insert name="footer" >
+            <ui:include src="footer.xhtml" />
+        </ui:insert>
+
+        <h:outputScript name="theme/js/jquery.js" library="assets" />
+        <h:outputScript name="theme/js/bootstrap.min.js" library="assets" />                
+        <script async="async" defer="defer" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA4gJ0DqevwZpAEdjYjJsjXFz8iRRZhWbQ&#38;callback=initMap" type="text/javascript"></script>
+        <h:outputScript name="theme/js/owl.carousel.min.js" library="assets" />
+        <h:outputScript name="theme/js/mousescroll.js" library="assets" />
+        <h:outputScript name="theme/js/smoothscroll.js" library="assets" />
+        <h:outputScript name="theme/js/jquery.prettyPhoto.js" library="assets" />
+        <h:outputScript name="theme/js/jquery.isotope.min.js" library="assets" />
+        <h:outputScript name="theme/js/jquery.inview.min.js" library="assets" />
+        <h:outputScript name="theme/js/wow.min.js" library="assets" />
+        <h:outputScript name="theme/js/main.js" library="assets" />
+
+    </h:body>
+
+</html>

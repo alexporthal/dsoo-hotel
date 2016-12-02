@@ -7,22 +7,15 @@ package br.ufscar.dc.hotel.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -30,63 +23,59 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "quarto")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Quarto.findAll", query = "SELECT q FROM Quarto q")
-    , @NamedQuery(name = "Quarto.findById", query = "SELECT q FROM Quarto q WHERE q.id = :id")
-    , @NamedQuery(name = "Quarto.findByDescricao", query = "SELECT q FROM Quarto q WHERE q.descricao = :descricao")
-    , @NamedQuery(name = "Quarto.findByTipo", query = "SELECT q FROM Quarto q WHERE q.tipo = :tipo")
-    , @NamedQuery(name = "Quarto.findByNumero", query = "SELECT q FROM Quarto q WHERE q.numero = :numero")
-    , @NamedQuery(name = "Quarto.findByCapacidade", query = "SELECT q FROM Quarto q WHERE q.capacidade = :capacidade")
-    , @NamedQuery(name = "Quarto.findByAndar", query = "SELECT q FROM Quarto q WHERE q.andar = :andar")
-    , @NamedQuery(name = "Quarto.findByOcupado", query = "SELECT q FROM Quarto q WHERE q.ocupado = :ocupado")
-    , @NamedQuery(name = "Quarto.findByValorDiaria", query = "SELECT q FROM Quarto q WHERE q.valorDiaria = :valorDiaria")})
 public class Quarto implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 140)
     @Column(name = "nome")
     private String nome;    
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 2048)
     @Column(name = "descricao")
     private String descricao;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "tipo")
     private int tipo;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
     @Column(name = "numero")
     private String numero;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "capacidade")
     private int capacidade;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "andar")
     private int andar;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "ocupado")
     private boolean ocupado;
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor_diaria")
     private BigDecimal valorDiaria;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkQuarto")
-    private List<Reserva> reservaList;
 
     public Quarto() {
     }
@@ -177,15 +166,6 @@ public class Quarto implements Serializable {
 
     public void setValorDiaria(BigDecimal valorDiaria) {
         this.valorDiaria = valorDiaria;
-    }
-
-    @XmlTransient
-    public List<Reserva> getReservaList() {
-        return reservaList;
-    }
-
-    public void setReservaList(List<Reserva> reservaList) {
-        this.reservaList = reservaList;
     }
 
     @Override

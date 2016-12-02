@@ -6,4 +6,9 @@
         <pattern value="/" /> 
         <view-id value="/views/public/index.jsf" />
     </url-mapping>
+    
+    <url-mapping id="reserve"> 
+        <pattern value="/reserve" /> 
+        <view-id value="/views/public/reserve.jsf" />
+    </url-mapping>
 </pretty-config>

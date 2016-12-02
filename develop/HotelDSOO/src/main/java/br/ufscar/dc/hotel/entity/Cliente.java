@@ -7,9 +7,7 @@ package br.ufscar.dc.hotel.entity;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,16 +15,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,89 +27,85 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "cliente")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Cliente.findAll", query = "SELECT c FROM Cliente c")
-    , @NamedQuery(name = "Cliente.findById", query = "SELECT c FROM Cliente c WHERE c.id = :id")
-    , @NamedQuery(name = "Cliente.findByNome", query = "SELECT c FROM Cliente c WHERE c.nome = :nome")
-    , @NamedQuery(name = "Cliente.findByDataNascimento", query = "SELECT c FROM Cliente c WHERE c.dataNascimento = :dataNascimento")
-    , @NamedQuery(name = "Cliente.findByDocRg", query = "SELECT c FROM Cliente c WHERE c.docRg = :docRg")
-    , @NamedQuery(name = "Cliente.findByDocCpf", query = "SELECT c FROM Cliente c WHERE c.docCpf = :docCpf")
-    , @NamedQuery(name = "Cliente.findByDocPassaporte", query = "SELECT c FROM Cliente c WHERE c.docPassaporte = :docPassaporte")
-    , @NamedQuery(name = "Cliente.findByContatoTelefone", query = "SELECT c FROM Cliente c WHERE c.contatoTelefone = :contatoTelefone")
-    , @NamedQuery(name = "Cliente.findByContatoCelular", query = "SELECT c FROM Cliente c WHERE c.contatoCelular = :contatoCelular")
-    , @NamedQuery(name = "Cliente.findByContatoEmail", query = "SELECT c FROM Cliente c WHERE c.contatoEmail = :contatoEmail")
-    , @NamedQuery(name = "Cliente.findByEndLogradouro", query = "SELECT c FROM Cliente c WHERE c.endLogradouro = :endLogradouro")
-    , @NamedQuery(name = "Cliente.findByEndNumero", query = "SELECT c FROM Cliente c WHERE c.endNumero = :endNumero")
-    , @NamedQuery(name = "Cliente.findByEndComplemento", query = "SELECT c FROM Cliente c WHERE c.endComplemento = :endComplemento")
-    , @NamedQuery(name = "Cliente.findByEndBairro", query = "SELECT c FROM Cliente c WHERE c.endBairro = :endBairro")
-    , @NamedQuery(name = "Cliente.findByEndCep", query = "SELECT c FROM Cliente c WHERE c.endCep = :endCep")})
 public class Cliente implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "nome")
     private String nome;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_nascimento")
     @Temporal(TemporalType.DATE)
     private Date dataNascimento;
+    
     @Size(max = 15)
     @Column(name = "doc_rg")
-    private String docRg;
+    private String rg;
+    
     @Size(max = 14)
     @Column(name = "doc_cpf")
-    private String docCpf;
+    private String cpf;
+    
     @Size(max = 20)
     @Column(name = "doc_passaporte")
-    private String docPassaporte;
+    private String passaporte;
+    
     @Size(max = 20)
     @Column(name = "contato_telefone")
-    private String contatoTelefone;
+    private String telefone;
+    
     @Size(max = 20)
     @Column(name = "contato_celular")
-    private String contatoCelular;
+    private String celular;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "contato_email")
-    private String contatoEmail;
+    private String email;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
     @Column(name = "end_logradouro")
-    private String endLogradouro;
+    private String logradouro;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10)
     @Column(name = "end_numero")
-    private String endNumero;
+    private String numero;
+    
     @Size(max = 30)
     @Column(name = "end_complemento")
-    private String endComplemento;
+    private String complemento;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "end_bairro")
-    private String endBairro;
+    private String bairro;
+    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 15)
     @Column(name = "end_cep")
-    private String endCep;
+    private String cep;
+    
     @JoinColumn(name = "end_fk_cidade", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Cidade endFkCidade;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "fkCliente")
-    private List<Reserva> reservaList;
+    private Cidade cidade;
 
     public Cliente() {
     }
@@ -129,11 +118,11 @@ public class Cliente implements Serializable {
         this.id = id;
         this.nome = nome;
         this.dataNascimento = dataNascimento;
-        this.contatoEmail = contatoEmail;
-        this.endLogradouro = endLogradouro;
-        this.endNumero = endNumero;
-        this.endBairro = endBairro;
-        this.endCep = endCep;
+        this.email = contatoEmail;
+        this.logradouro = endLogradouro;
+        this.numero = endNumero;
+        this.bairro = endBairro;
+        this.cep = endCep;
     }
 
     public Integer getId() {
@@ -160,111 +149,102 @@ public class Cliente implements Serializable {
         this.dataNascimento = dataNascimento;
     }
 
-    public String getDocRg() {
-        return docRg;
+    public String getRg() {
+        return rg;
     }
 
-    public void setDocRg(String docRg) {
-        this.docRg = docRg;
+    public void setRg(String rg) {
+        this.rg = rg;
     }
 
-    public String getDocCpf() {
-        return docCpf;
+    public String getCpf() {
+        return cpf;
     }
 
-    public void setDocCpf(String docCpf) {
-        this.docCpf = docCpf;
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
-    public String getDocPassaporte() {
-        return docPassaporte;
+    public String getPassaporte() {
+        return passaporte;
     }
 
-    public void setDocPassaporte(String docPassaporte) {
-        this.docPassaporte = docPassaporte;
+    public void setPassaporte(String passaporte) {
+        this.passaporte = passaporte;
     }
 
-    public String getContatoTelefone() {
-        return contatoTelefone;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setContatoTelefone(String contatoTelefone) {
-        this.contatoTelefone = contatoTelefone;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
     }
 
-    public String getContatoCelular() {
-        return contatoCelular;
+    public String getCelular() {
+        return celular;
     }
 
-    public void setContatoCelular(String contatoCelular) {
-        this.contatoCelular = contatoCelular;
+    public void setCelular(String celular) {
+        this.celular = celular;
     }
 
-    public String getContatoEmail() {
-        return contatoEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setContatoEmail(String contatoEmail) {
-        this.contatoEmail = contatoEmail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getEndLogradouro() {
-        return endLogradouro;
+    public String getLogradouro() {
+        return logradouro;
     }
 
-    public void setEndLogradouro(String endLogradouro) {
-        this.endLogradouro = endLogradouro;
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
-    public String getEndNumero() {
-        return endNumero;
+    public String getNumero() {
+        return numero;
     }
 
-    public void setEndNumero(String endNumero) {
-        this.endNumero = endNumero;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
-    public String getEndComplemento() {
-        return endComplemento;
+    public String getComplemento() {
+        return complemento;
     }
 
-    public void setEndComplemento(String endComplemento) {
-        this.endComplemento = endComplemento;
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
     }
 
-    public String getEndBairro() {
-        return endBairro;
+    public String getBairro() {
+        return bairro;
     }
 
-    public void setEndBairro(String endBairro) {
-        this.endBairro = endBairro;
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
-    public String getEndCep() {
-        return endCep;
+    public String getCep() {
+        return cep;
     }
 
-    public void setEndCep(String endCep) {
-        this.endCep = endCep;
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
-    public Cidade getEndFkCidade() {
-        return endFkCidade;
+    public Cidade getCidade() {
+        return cidade;
     }
 
-    public void setEndFkCidade(Cidade endFkCidade) {
-        this.endFkCidade = endFkCidade;
+    public void setCidade(Cidade cidade) {
+        this.cidade = cidade;
     }
-
-    @XmlTransient
-    public List<Reserva> getReservaList() {
-        return reservaList;
-    }
-
-    public void setReservaList(List<Reserva> reservaList) {
-        this.reservaList = reservaList;
-    }
-
+    
     @Override
     public int hashCode() {
         int hash = 0;

@@ -16,13 +16,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -30,42 +27,41 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Entity
 @Table(name = "reserva")
-@XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "Reserva.findAll", query = "SELECT r FROM Reserva r")
-    , @NamedQuery(name = "Reserva.findById", query = "SELECT r FROM Reserva r WHERE r.id = :id")
-    , @NamedQuery(name = "Reserva.findByDataChegada", query = "SELECT r FROM Reserva r WHERE r.dataChegada = :dataChegada")
-    , @NamedQuery(name = "Reserva.findByDataSaida", query = "SELECT r FROM Reserva r WHERE r.dataSaida = :dataSaida")
-    , @NamedQuery(name = "Reserva.findByValorTotal", query = "SELECT r FROM Reserva r WHERE r.valorTotal = :valorTotal")})
 public class Reserva implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_chegada")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataChegada;
+    
     @Basic(optional = false)
     @NotNull
     @Column(name = "data_saida")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataSaida;
+    
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "valor_total")
     private BigDecimal valorTotal;
+    
     @JoinColumn(name = "fk_cliente", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Cliente fkCliente;
+    private Cliente cliente;
+    
     @JoinColumn(name = "fk_quarto", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Quarto fkQuarto;
+    private Quarto quarto;
 
     public Reserva() {
     }
@@ -113,20 +109,20 @@ public class Reserva implements Serializable {
         this.valorTotal = valorTotal;
     }
 
-    public Cliente getFkCliente() {
-        return fkCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setFkCliente(Cliente fkCliente) {
-        this.fkCliente = fkCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public Quarto getFkQuarto() {
-        return fkQuarto;
+    public Quarto getQuarto() {
+        return quarto;
     }
 
-    public void setFkQuarto(Quarto fkQuarto) {
-        this.fkQuarto = fkQuarto;
+    public void setQuarto(Quarto quarto) {
+        this.quarto = quarto;
     }
 
     @Override

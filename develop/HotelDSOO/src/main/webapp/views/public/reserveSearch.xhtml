@@ -1,0 +1,155 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <section id="cta" class="wow fadeIn">
+
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title text-center wow fadeInDown">RESERVA</h2>
+                <p class="text-center wow fadeInDown">Faça a pesquisa abaixo para sua reserva.</p>
+            </div>
+
+            <div class="row">
+                <h:form id="formPesquisaReserva" class="form-inline" prependId="false">
+                    <center>
+                        <div class="form-group">
+                            <p:outputLabel value="Chegada" for="chegada" />
+                            <div class="col-3">
+                                <p:calendar tabindex="0"
+                                            styleClass="form-control-two"
+                                            required="true"
+                                            id="chegada"
+                                            value="#{reservaMBean.filtroReservaChegada}" 
+                                            requiredMessage="Data Chegada Obrigatório"
+                                            pattern="dd/MM/yyyy"
+                                            autocomplete="off"
+                                            mask="true">
+                                    <p:ajax event="blur"  />
+                                </p:calendar>
+                            </div>
+                            <h:message for="chegada" class="help-block with-errors label label-danger" />
+                        </div>
+                        <div class="form-group">
+                            <p:outputLabel value="Saída" for="saida" />
+                            <div class="col-3">
+                                <p:calendar tabindex="1"
+                                            styleClass="form-control-two"
+                                            required="true"
+                                            id="saida"
+                                            value="#{reservaMBean.filtroReservaSaida}" 
+                                            requiredMessage="Data Saída Obrigatório"
+                                            pattern="dd/MM/yyyy"
+                                            autocomplete="off"
+                                            mask="true">
+                                    <p:ajax event="blur"  />
+                                </p:calendar>
+                            </div>
+                            <h:message for="saida" class="help-block with-errors label label-danger" />
+                        </div>                        
+                        <div class="form-group">
+                            <p:outputLabel value="Nº. Pessoas" for="pessoas" />
+                            <div class="col-1">
+                                <p:inputMask tabindex="2"
+                                             placeholder=" "
+                                             class="form-control"
+                                             required="true"
+                                             id="pessoas"
+                                             autocomplete="off"
+                                             slotChar=" "
+                                             value="#{reservaMBean.filtroNumeroPessoas}" 
+                                             requiredMessage="Número de Pessoas Obrigatório"
+                                             mask="9?9999999">
+
+                                </p:inputMask>
+                            </div>
+                            <h:message for="pessoas" class="help-block with-errors label label-danger" />                                                       
+                        </div>
+                        <div class="form-group">
+                            <p:outputLabel value="Tipo Quarto" for="tipoQuarto" />
+                            <div class="col-1">
+                                <h:selectOneMenu value="#{reservaMBean.filtroTipoQuarto}"
+                                                 id="tipoQuarto" 
+                                                 tabindex="3"
+                                                 required="true"
+                                                 requiredMessage="Tipo Quarto Obrigatório"
+                                                 class="form-control">                                    
+                                    <f:selectItem itemValue="0" itemLabel="Simples"/>
+                                    <f:selectItem itemValue="1" itemLabel="Luxo"/>
+                                </h:selectOneMenu>
+                            </div>
+                            <h:message for="tipoQuarto" class="help-block with-errors label label-danger" />                                                       
+                        </div>
+                        <p:commandLink id="btPesquisarReserva" actionListener="#{reservaMBean.pesquisarReserva()}" 
+                                       process="@this" update="@all" 
+                                       class="btn btn-primary" global="false" style="margin-left: 5px;">
+                            <i class="fa fa-search"></i> Pesquisar
+                        </p:commandLink>
+                    </center>
+
+                    <br/>
+
+                    <p:panel id="pnlQuartosParaReserva" rendered="#{reservaMBean.quartosParaReserva.size() > 0}">
+
+                        <!--Table-->
+                        <p:dataTable id="tabelaPesquisa" widgetVar="tblRegistro" var="object" value="#{reservaMBean.quartosParaReserva}" 
+                                     selectionMode="single" rowKey="#{object.id}" styleClass="styledatatable" rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,25,50,100,500" emptyMessage="Nenhum quarto disponível para reserva na data informada." 
+                                     currentPageReportTemplate="(Pág. {currentPage}/{totalPages} - {totalRecords} quartos)"
+                                     draggableColumns="true">
+                            <f:facet name="header">
+                                <p style="color: red;">QUARTOS DISPONÍVEIS PARA RESERVA</p>
+                                <br/>
+                            </f:facet>
+
+
+                            <p:column headerText="Foto" width="30%">
+                                <p:panel>
+                                    <img src='#{resource["assets/images/semfoto.gif"]}' alt="" width="100%" height="200px"/>
+                                </p:panel>
+                            </p:column>
+
+                            <p:column headerText="Quarto" width="40%">
+                                <strong><h:outputText value="#{object.nome}" /></strong>
+
+                                <br/><br/>
+                                <h:outputText value="#{object.descricao}" />
+                                <br/><br/>
+                                <h:outputText value="Capacidade: #{object.capacidade} pessoa(s)" />
+                                <br/>
+                                <h:outputText value="Andar: #{object.andar}º" />
+                                <br/>
+                                <h:outputText value="Tipo: Simples" rendered="#{object.tipo == 0}" />
+                                <h:outputText value="Tipo: Luxo" rendered="#{object.tipo == 1}" />
+                                <br/><br/>
+                            </p:column>
+
+                            <p:column headerText="Diária" width="15%">
+                                <strong><h:outputText value="#{object.valorDiaria}" class="pull-right"
+                                                      style="text-align: right;">
+                                        <f:convertNumber pattern="#,###.##" minFractionDigits="2" currencySymbol="R$"/>
+                                    </h:outputText> 
+                                </strong>
+                            </p:column>
+
+                            <p:column headerText=" " width="15%" toggleable="false" >
+                                <p:commandLink id="btnReserva"
+                                               class="btn btn-danger"
+                                               action="#{reservaMBean.reservarQuarto(object)}" 
+                                               style="color: white;">
+                                    <i class="fa fa-check"></i>&#160;&#160;RESERVAR
+                                </p:commandLink>
+                            </p:column>
+                        </p:dataTable>
+                        <!--Table End-->
+
+                    </p:panel>
+                </h:form>
+            </div>
+        </div>
+    </section><!--/#cta-->
+
+</html>
