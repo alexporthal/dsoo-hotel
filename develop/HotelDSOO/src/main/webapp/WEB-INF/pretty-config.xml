@@ -11,4 +11,14 @@
         <pattern value="/reserve" /> 
         <view-id value="/views/public/reserve.jsf" />
     </url-mapping>
+    
+    <url-mapping id="cancelReserve"> 
+        <pattern value="/cancelReserve" /> 
+        <view-id value="/views/public/cancelReserve.jsf" />
+    </url-mapping>
+    
+    <url-mapping id="checkReserve"> 
+        <pattern value="/checkReserve" /> 
+        <view-id value="/views/public/checkReserve.jsf" />
+    </url-mapping>
 </pretty-config>

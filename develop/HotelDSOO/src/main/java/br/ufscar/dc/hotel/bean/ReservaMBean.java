@@ -42,6 +42,8 @@ public class ReservaMBean implements Serializable {
     private List<Cidade> cidades;
     private Cliente cliente;
     private boolean reservaFinalizada;
+    private boolean reservaBuscaEncontrada;
+    private Integer idReservaConsultado;
 
     @EJB
     private MyPersistence myPersistence;
@@ -104,36 +106,24 @@ public class ReservaMBean implements Serializable {
         }
     }
 
-    public String cancelarReserva() {
-        return "pretty:index";
+    public void searchReserve() {
+        this.reservaBuscaEncontrada = false;
+        this.reserva = (Reserva) this.myPersistence.getById(Reserva.class, idReservaConsultado);
+        if (this.reserva != null) {
+            this.reservaBuscaEncontrada = true;
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Nenhuma Reserva Encontrada com o número informado!", ""));
+        }
     }
 
-    /**
-     * @return the cidadeSession
-     */
-    public CidadeSession getCidadeSession() {
-        return cidadeSession;
-    }
-
-    /**
-     * @param cidadeSession the cidadeSession to set
-     */
-    public void setCidadeSession(CidadeSession cidadeSession) {
-        this.cidadeSession = cidadeSession;
-    }
-
-    /**
-     * @return the cidades
-     */
-    public List<Cidade> getCidades() {
-        return cidades;
-    }
-
-    /**
-     * @param cidades the cidades to set
-     */
-    public void setCidades(List<Cidade> cidades) {
-        this.cidades = cidades;
+    public void cancelReserve() {
+        this.reservaBuscaEncontrada = false;
+        boolean deleted = this.myPersistence.remove(this.reserva);
+        if (deleted) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Reserva Cancelada com Sucesso!", ""));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao Cancelar a Reserva!", ""));
+        }
     }
 
     //<editor-fold defaultstate="collapsed" desc="Get/Set">    
@@ -275,6 +265,62 @@ public class ReservaMBean implements Serializable {
      */
     public void setReservaFinalizada(boolean reservaFinalizada) {
         this.reservaFinalizada = reservaFinalizada;
+    }
+
+    /**
+     * @return the cidadeSession
+     */
+    public CidadeSession getCidadeSession() {
+        return cidadeSession;
+    }
+
+    /**
+     * @param cidadeSession the cidadeSession to set
+     */
+    public void setCidadeSession(CidadeSession cidadeSession) {
+        this.cidadeSession = cidadeSession;
+    }
+
+    /**
+     * @return the cidades
+     */
+    public List<Cidade> getCidades() {
+        return cidades;
+    }
+
+    /**
+     * @param cidades the cidades to set
+     */
+    public void setCidades(List<Cidade> cidades) {
+        this.cidades = cidades;
+    }
+
+    /**
+     * @return the idReservaConsultado
+     */
+    public Integer getIdReservaConsultado() {
+        return idReservaConsultado;
+    }
+
+    /**
+     * @param idReservaConsultado the idReservaConsultado to set
+     */
+    public void setIdReservaConsultado(Integer idReservaConsultado) {
+        this.idReservaConsultado = idReservaConsultado;
+    }
+
+    /**
+     * @return the reservaBuscaEncontrada
+     */
+    public boolean isReservaBuscaEncontrada() {
+        return reservaBuscaEncontrada;
+    }
+
+    /**
+     * @param reservaBuscaEncontrada the reservaBuscaEncontrada to set
+     */
+    public void setReservaBuscaEncontrada(boolean reservaBuscaEncontrada) {
+        this.reservaBuscaEncontrada = reservaBuscaEncontrada;
     }
     //</editor-fold>
 

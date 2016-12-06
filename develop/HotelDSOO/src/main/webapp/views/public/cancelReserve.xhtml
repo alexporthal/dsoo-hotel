@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/views/public/structure/templateNoTopBar.xhtml">
+
+    <ui:define name="content">
+        <h:form id="formCancelReserva" prependId="false">
+
+            <h:panelGroup style="margin:50px;" layout="block" >
+                <h1>Cancelar Reserva de Quarto</h1>
+                <hr/>
+                <div class="container">
+                    <div class="row">
+                        <div class="form-group col-lg-12">
+                            <fieldset>
+                                <div class="well">                                    
+
+                                    <h3>Dados da Reserva</h3>
+                                    <hr/>
+
+                                    <div class="control-group">
+                                        <p:outputLabel value="Número da Reserva" for="nroReserva" />
+                                        <div class="controls">
+                                            <p:inputText tabindex="0"
+                                                         placeholder="Informe o Número da Reserva"
+                                                         class="form-control"
+                                                         required="true"
+                                                         id="nroReserva"
+                                                         maxlength="10"
+                                                         value="#{reservaMBean.idReservaConsultado}" 
+                                                         autocomplete="off"
+                                                         requiredMessage="Campo Número da Reserva Obrigatório"
+                                                         type="text">
+                                            </p:inputText>
+                                            <h:message for="nroReserva" class="help-block with-errors label label-danger" />
+                                        </div>
+                                    </div>
+                                    <br/>
+
+                                    <p:commandLink id="btPesquisarReserva" actionListener="#{reservaMBean.searchReserve()}" 
+                                                   process=":formCancelReserva"  update=":formCancelReserva"
+                                                   class="btn btn-primary" global="false" style="margin-left: 5px;">
+                                        <i class="fa fa-search"></i> Buscar Reserva
+                                    </p:commandLink>
+
+                                    <p:messages  id="messages" showDetail="false" autoUpdate="true" closable="true" globalOnly="true"/>
+
+                                    <hr/>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+
+                    <h:panelGroup layout="block" rendered="#{reservaMBean.reservaBuscaEncontrada}">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <fieldset>
+                                    <div class="well">
+
+                                        <h3>Dados da Reserva</h3>
+                                        <hr/>
+
+                                        <p:outputLabel value="Cliente: " />&#160;
+                                        <h:outputText value="#{reservaMBean.reserva.cliente.nome}" />
+                                        <br/>
+                                        <p:outputLabel value="Chegada: " />&#160;
+                                        <h:outputText value="#{reservaMBean.reserva.dataChegada}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                        <br/>
+                                        <p:outputLabel value="Saída: " />&#160;
+                                        <h:outputText value="#{reservaMBean.reserva.dataSaida}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                                        </h:outputText>
+                                        <br/>
+                                        <p:outputLabel value="Quarto: " />&#160;
+                                        <h:outputText value="#{reservaMBean.reserva.quarto.nome}" />
+                                        <br/>
+                                        <p:outputLabel value="Nro. Pessoas: " />&#160;
+                                        <h:outputText value="#{reservaMBean.reserva.quarto.capacidade}" />
+                                        <br/>
+                                        <p:outputLabel value="Total: " />&#160;R$:&#160;
+                                        <h:outputText value="#{reservaMBean.reserva.quarto.valorDiaria}" >
+                                            <f:convertNumber pattern="#,###.##" minFractionDigits="2"/>
+                                        </h:outputText>                                                                                
+                                        <hr/>
+                                        <p:commandLink id="btCancelReserve" actionListener="#{reservaMBean.cancelReserve()}" 
+                                                       process=":formCancelReserva"  update=":formCancelReserva"
+                                                       class="btn btn-danger" global="false" style="margin-left: 5px;">
+                                            <i class="fa fa-close"></i> Cancelar Reserva
+                                        </p:commandLink>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </h:panelGroup>
+
+        </h:form>
+    </ui:define>
+
+</ui:composition>

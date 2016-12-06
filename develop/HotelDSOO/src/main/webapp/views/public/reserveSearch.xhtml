@@ -8,8 +8,16 @@
 
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title text-center wow fadeInDown">RESERVA</h2>
-                <p class="text-center wow fadeInDown">Faça a pesquisa abaixo para sua reserva.</p>
+                <h:form id="formLinks" prependId="false">
+                    <h2 class="section-title text-center wow fadeInDown">RESERVA</h2>
+                    <p class="text-center wow fadeInDown">Faça a pesquisa abaixo para realizar sua reserva.<br/>
+                        Ou clique nos links 
+                        <h:outputLink value="#{facesContext.externalContext.requestContextPath}/checkReserve" style="color: red;">Consultar Reserva</h:outputLink>
+                        ou 
+                        <h:outputLink value="#{facesContext.externalContext.requestContextPath}/cancelReserve" style="color: red;">Cancelar Reserva</h:outputLink>
+                        caso já tenha alguma reserva realizada.
+                    </p>
+                </h:form>
             </div>
 
             <div class="row">
