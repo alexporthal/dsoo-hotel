@@ -7,6 +7,9 @@
 
     <ui:define name="content">
         <h:form id="formReserva" class="form-horizontal" prependId="false">
+
+            <p:focus for="nomeCompleto"/>
+
             <h:panelGroup style="margin:50px;" layout="block" >
                 <h1>Reserva de Quarto</h1>
                 <hr/>
@@ -17,8 +20,20 @@
                                 <fieldset>
                                     <div class="well">
 
+                                        <p:messages  id="messages" showDetail="false" autoUpdate="true" closable="true" globalOnly="true"/>
+
                                         <h3>Dados da Reserva</h3>
                                         <hr/>
+
+                                        <h:panelGroup layout="block" rendered="#{reservaMBean.reservaFinalizada == true}">
+                                            <h3 style="color: red;">RESERVA REALIZADA COM SUCESSO!</h3>
+
+                                            <br/>
+                                            <p:outputLabel style="color: red;" value="Número Reserva: " />&#160;
+                                            <h:outputText style="color: red;" value="#{reservaMBean.reserva.id}" />
+                                            <br/>
+                                        </h:panelGroup>
+
                                         <p:outputLabel value="Chegada: " />&#160;
                                         <h:outputText value="#{reservaMBean.reserva.dataChegada}" >
                                             <f:convertDateTime pattern="dd/MM/yyyy" />
@@ -38,222 +53,250 @@
                                         <p:outputLabel value="Total: " />&#160;R$:&#160;
                                         <h:outputText value="#{reservaMBean.reserva.quarto.valorDiaria}" >
                                             <f:convertNumber pattern="#,###.##" minFractionDigits="2"/>
-                                        </h:outputText>
+                                        </h:outputText>                                                                                
                                         <hr/>
                                     </div>
                                 </fieldset>
                             </div>
                         </div>
 
+                        <h:panelGroup layout="block" rendered="#{reservaMBean.reservaFinalizada == false}">
+                            <div class="row">
+                                <div class="form-group col-lg-12">
+                                    <fieldset>
+                                        <div class="well">
 
-                        <div class="row">
-                            <div class="form-group col-lg-12">
-                                <fieldset>
-                                    <div class="well">
-
-                                        <h3>Dados do Cliente</h3>
-                                        <hr/>   
-                                        <!-- full-name input-->
-                                        <div class="control-group">
-                                            <p:outputLabel value="Nome Completo" for="nomeCompleto" />
-                                            <div class="controls">
-                                                <p:inputText tabindex="0"
-                                                             placeholder="Informe o nome completo"
-                                                             class="form-control"
-                                                             required="true"
-                                                             id="nomeCompleto"
-                                                             maxlength="255"
-                                                             value="#{reservaMBean.reserva.cliente.nome}" 
-                                                             autocomplete="off"
-                                                             requiredMessage="Campo Nome Completo Obrigatório"
-                                                             type="text">
-                                                </p:inputText>
-                                                <h:message for="nomeCompleto" class="help-block with-errors label label-danger" />
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <p:outputLabel value="Data Nasc." for="dataNasc" />
-                                            <div class="controls">
-                                                <p:calendar tabindex="1"
-                                                            styleClass="form-control-two"
-                                                            required="true"
-                                                            id="dataNasc"
-                                                            placeholder="Informe a Data de Nasc."
-                                                            value="#{reservaMBean.reserva.cliente.dataNascimento}"
-                                                            requiredMessage="Data Nascimento Obrigatório"
-                                                            pattern="dd/MM/yyyy"
-                                                            autocomplete="off"
-                                                            mask="true">
-                                                    <p:ajax event="blur"  />
-                                                </p:calendar>
-                                                <h:message for="dataNasc" class="help-block with-errors label label-danger" />
-                                            </div>
-                                        </div>
-                                        <div class="control-group">
-                                            <p:outputLabel value="RG" for="rg" />
-                                            <div class="controls">
-                                                <p:inputText tabindex="0"
-                                                             placeholder="Informe o RG completo"
-                                                             class="form-control"
-                                                             required="true"
-                                                             id="rg"
-                                                             maxlength="15"
-                                                             value="#{reservaMBean.reserva.cliente.rg}" 
-                                                             autocomplete="off"
-                                                             requiredMessage="Campo RG Obrigatório"
-                                                             type="text">
-                                                </p:inputText>
-                                                <h:message for="rg" class="help-block with-errors label label-danger" />
-                                            </div>
-                                        </div>
-
-                                        <div class="control-group">
-                                            <p:outputLabel value="CPF" for="cpf" />
-                                            <div class="controls">
-                                                <p:inputMask tabindex="0"
-                                                             placeholder="Informe o CPF"
-                                                             class="form-control"
-                                                             required="true"
-                                                             id="cpf"
-                                                             autocomplete="off"
-                                                             slotChar=" "
-                                                             value="#{reservaMBean.reserva.cliente.cpf}" 
-                                                             requiredMessage="Campo CPF Obrigatório"
-                                                             mask="999.999.999-99">
-                                                </p:inputMask>
-                                                <h:message for="cpf" class="help-block with-errors label label-danger" />
-                                            </div>
-                                        </div>
-
-                                        <div class="control-group">
-                                            <p:outputLabel value="Endereço" for="endLogradouro" />
-                                            <div class="controls">
-                                                <p:inputText tabindex="0"
-                                                             placeholder="Informe o endereço"
-                                                             class="form-control"
-                                                             required="true"
-                                                             id="endLogradouro"
-                                                             maxlength="100"
-                                                             value="#{reservaMBean.reserva.cliente.logradouro}" 
-                                                             autocomplete="off"
-                                                             requiredMessage="Campo Endereço Obrigatório"
-                                                             type="text">
-                                                </p:inputText>
-                                                <h:message for="endLogradouro" class="help-block with-errors label label-danger" />
-                                            </div>
-                                        </div>
-
-                                        <div class="control-group">
-                                            <p:outputLabel value="Número" for="endNumero" />
-                                            <div class="controls">
-                                                <p:inputText tabindex="0"
-                                                             placeholder="Informe o nro. endereço"
-                                                             class="form-control"
-                                                             required="true"
-                                                             id="endNumero"
-                                                             maxlength="10"
-                                                             value="#{reservaMBean.reserva.cliente.numero}" 
-                                                             autocomplete="off"
-                                                             requiredMessage="Campo Nro. Endereço Obrigatório"
-                                                             type="text">
-                                                </p:inputText>
-                                                <h:message for="endNumero" class="help-block with-errors label label-danger" />
-                                            </div>
-                                        </div>
-
-                                        <div class="control-group">
-                                            <p:outputLabel value="Complemento" for="endComplemento" />
-                                            <div class="controls">
-                                                <p:inputText tabindex="0"
-                                                             placeholder="Informe o complemento do endereço"
-                                                             class="form-control"
-                                                             id="endComplemento"
-                                                             maxlength="30"
-                                                             value="#{reservaMBean.reserva.cliente.complemento}" 
-                                                             autocomplete="off"
-                                                             type="text">
-                                                </p:inputText>
-                                                <h:message for="endComplemento" class="help-block with-errors label label-danger" />
-                                            </div>
-                                        </div>
-
-                                        <div class="control-group">
-                                            <p:outputLabel value="Bairro" for="endBairro" />
-                                            <div class="controls">
-                                                <p:inputText tabindex="0"
-                                                             placeholder="Informe o bairro"
-                                                             class="form-control"
-                                                             required="true"
-                                                             id="endBairro"
-                                                             maxlength="45"
-                                                             value="#{reservaMBean.reserva.cliente.bairro}" 
-                                                             autocomplete="off"
-                                                             requiredMessage="Campo Bairro Obrigatório"
-                                                             type="text">
-                                                </p:inputText>
-                                                <h:message for="endBairro" class="help-block with-errors label label-danger" />
-                                            </div>
-                                        </div>
-
-                                        <div class="control-group">
-                                            <p:outputLabel value="CEP" for="endCep" />
-                                            <div class="controls">
-                                                <p:inputMask tabindex="0"
-                                                             placeholder="Informe o CEP"
-                                                             class="form-control"
-                                                             required="true"
-                                                             id="endCep"
-                                                             autocomplete="off"
-                                                             slotChar=" "
-                                                             value="#{reservaMBean.reserva.cliente.cep}" 
-                                                             requiredMessage="Campo CEP Obrigatório"
-                                                             mask="99.999-999">
-                                                </p:inputMask>
-                                                <h:message for="endCep" class="help-block with-errors label label-danger" />
-                                            </div>
-                                        </div>
-
-                                        <div class="control-group">
-                                            <p:outputLabel value="Cidade/Estado" for="endCidade" />
-                                            <div class="controls">
-                                                <h:selectOneMenu value="#{reservaMBean.reserva.cliente.cidade}"
-                                                                 id="endCidade" 
-                                                                 tabindex="0"
+                                            <h3>Dados do Cliente</h3>
+                                            <hr/>   
+                                            <!-- full-name input-->
+                                            <div class="control-group">
+                                                <p:outputLabel value="Nome Completo" for="nomeCompleto" />
+                                                <div class="controls">
+                                                    <p:inputText tabindex="0"
+                                                                 placeholder="Informe o nome completo"
+                                                                 class="form-control"
                                                                  required="true"
-                                                                 requiredMessage="Tipo Cidade Obrigatório"
-                                                                 class="form-control">                                    
-                                                    <f:passThroughAttribute name="data-live-search" value="#{cc.attrs.liveSearch}" />
-                                                    <f:passThroughAttribute name="data-width" value="100%" />
-                                                    <f:passThroughAttribute name="data-subtext" value="" />
-                                                    <f:passThroughAttribute name="data-size" value="5" />
-                                                    <f:selectItem itemValue="#{null}" itemLabel="Nenhum Registro"/>
-                                                    <f:selectItems value="#{reservaMBean.cidades}" var="type"
-                                                                   itemLabel="#{type}" itemValue="#{type}" />
-                                                </h:selectOneMenu>
-                                                <h:message for="endCidade" class="help-block with-errors label label-danger" />
+                                                                 id="nomeCompleto"
+                                                                 maxlength="255"
+                                                                 value="#{reservaMBean.cliente.nome}" 
+                                                                 autocomplete="off"
+                                                                 requiredMessage="Campo Nome Completo Obrigatório"
+                                                                 type="text">
+                                                    </p:inputText>
+                                                    <h:message for="nomeCompleto" class="help-block with-errors label label-danger" />
+                                                </div>
                                             </div>
+                                            <div class="control-group">
+                                                <p:outputLabel value="E-mail" for="email" />
+                                                <div class="controls">
+                                                    <p:inputText tabindex="0"
+                                                                 placeholder="Informe o e-mail"
+                                                                 class="form-control"
+                                                                 required="true"
+                                                                 id="email"
+                                                                 maxlength="100"
+                                                                 value="#{reservaMBean.cliente.email}" 
+                                                                 autocomplete="off"
+                                                                 requiredMessage="Campo E-mail Obrigatório"
+                                                                 type="text">
+                                                    </p:inputText>
+                                                    <h:message for="email" class="help-block with-errors label label-danger" />
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <p:outputLabel value="Data Nasc." for="dataNasc" />
+                                                <div class="controls">
+                                                    <p:calendar tabindex="0"
+                                                                styleClass="form-control-two"
+                                                                required="true"
+                                                                id="dataNasc"
+                                                                placeholder="Informe a Data de Nasc."
+                                                                value="#{reservaMBean.cliente.dataNascimento}"
+                                                                requiredMessage="Data Nascimento Obrigatório"
+                                                                pattern="dd/MM/yyyy"
+                                                                autocomplete="off"
+                                                                mask="true">
+                                                        <p:ajax event="blur"  />
+                                                    </p:calendar>
+                                                    <h:message for="dataNasc" class="help-block with-errors label label-danger" />
+                                                </div>
+                                            </div>
+                                            <div class="control-group">
+                                                <p:outputLabel value="RG" for="rg" />
+                                                <div class="controls">
+                                                    <p:inputText tabindex="0"
+                                                                 placeholder="Informe o RG completo"
+                                                                 class="form-control"
+                                                                 required="true"
+                                                                 id="rg"
+                                                                 maxlength="15"
+                                                                 value="#{reservaMBean.cliente.rg}" 
+                                                                 autocomplete="off"
+                                                                 requiredMessage="Campo RG Obrigatório"
+                                                                 type="text">
+                                                    </p:inputText>
+                                                    <h:message for="rg" class="help-block with-errors label label-danger" />
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <p:outputLabel value="CPF" for="cpf" />
+                                                <div class="controls">
+                                                    <p:inputMask tabindex="0"
+                                                                 placeholder="Informe o CPF"
+                                                                 class="form-control"
+                                                                 required="true"
+                                                                 id="cpf"
+                                                                 autocomplete="off"
+                                                                 slotChar=" "
+                                                                 value="#{reservaMBean.cliente.cpf}" 
+                                                                 requiredMessage="Campo CPF Obrigatório"
+                                                                 mask="999.999.999-99">
+                                                    </p:inputMask>
+                                                    <h:message for="cpf" class="help-block with-errors label label-danger" />
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <p:outputLabel value="Endereço" for="endLogradouro" />
+                                                <div class="controls">
+                                                    <p:inputText tabindex="0"
+                                                                 placeholder="Informe o endereço"
+                                                                 class="form-control"
+                                                                 required="true"
+                                                                 id="endLogradouro"
+                                                                 maxlength="100"
+                                                                 value="#{reservaMBean.cliente.logradouro}" 
+                                                                 autocomplete="off"
+                                                                 requiredMessage="Campo Endereço Obrigatório"
+                                                                 type="text">
+                                                    </p:inputText>
+                                                    <h:message for="endLogradouro" class="help-block with-errors label label-danger" />
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <p:outputLabel value="Número" for="endNumero" />
+                                                <div class="controls">
+                                                    <p:inputText tabindex="0"
+                                                                 placeholder="Informe o nro. endereço"
+                                                                 class="form-control"
+                                                                 required="true"
+                                                                 id="endNumero"
+                                                                 maxlength="10"
+                                                                 value="#{reservaMBean.cliente.numero}" 
+                                                                 autocomplete="off"
+                                                                 requiredMessage="Campo Nro. Endereço Obrigatório"
+                                                                 type="text">
+                                                    </p:inputText>
+                                                    <h:message for="endNumero" class="help-block with-errors label label-danger" />
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <p:outputLabel value="Complemento" for="endComplemento" />
+                                                <div class="controls">
+                                                    <p:inputText tabindex="0"
+                                                                 placeholder="Informe o complemento do endereço"
+                                                                 class="form-control"
+                                                                 id="endComplemento"
+                                                                 maxlength="30"
+                                                                 value="#{reservaMBean.cliente.complemento}" 
+                                                                 autocomplete="off"
+                                                                 type="text">
+                                                    </p:inputText>
+                                                    <h:message for="endComplemento" class="help-block with-errors label label-danger" />
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <p:outputLabel value="Bairro" for="endBairro" />
+                                                <div class="controls">
+                                                    <p:inputText tabindex="0"
+                                                                 placeholder="Informe o bairro"
+                                                                 class="form-control"
+                                                                 required="true"
+                                                                 id="endBairro"
+                                                                 maxlength="45"
+                                                                 value="#{reservaMBean.cliente.bairro}" 
+                                                                 autocomplete="off"
+                                                                 requiredMessage="Campo Bairro Obrigatório"
+                                                                 type="text">
+                                                    </p:inputText>
+                                                    <h:message for="endBairro" class="help-block with-errors label label-danger" />
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <p:outputLabel value="CEP" for="endCep" />
+                                                <div class="controls">
+                                                    <p:inputMask tabindex="0"
+                                                                 placeholder="Informe o CEP"
+                                                                 class="form-control"
+                                                                 required="true"
+                                                                 id="endCep"
+                                                                 autocomplete="off"
+                                                                 slotChar=" "
+                                                                 value="#{reservaMBean.cliente.cep}" 
+                                                                 requiredMessage="Campo CEP Obrigatório"
+                                                                 mask="99.999-999">
+                                                    </p:inputMask>
+                                                    <h:message for="endCep" class="help-block with-errors label label-danger" />
+                                                </div>
+                                            </div>
+
+                                            <div class="control-group">
+                                                <p:outputLabel value="Cidade/Estado" for="endCidade" />
+                                                <div class="controls">
+                                                    <h:selectOneMenu value="#{reservaMBean.cliente.cidade}"
+                                                                     id="endCidade" 
+                                                                     tabindex="0"
+                                                                     required="true"
+                                                                     requiredMessage="Campo Cidade Obrigatório"
+                                                                     converter="omnifaces.SelectItemsConverter"
+                                                                     class="form-control">                                    
+                                                        <f:passThroughAttribute name="data-live-search" value="true" />
+                                                        <f:passThroughAttribute name="data-width" value="100%" />
+                                                        <f:passThroughAttribute name="data-subtext" value="" />
+                                                        <f:passThroughAttribute name="data-size" value="5" />
+                                                        <f:selectItem itemValue="#{null}" itemLabel="Nenhum Registro"/>
+                                                        <f:selectItems value="#{reservaMBean.cidades}" var="type"
+                                                                       itemLabel="#{type}" itemValue="#{type}" />
+                                                    </h:selectOneMenu>
+                                                    <h:message for="endCidade" class="help-block with-errors label label-danger" />
+                                                </div>
+                                            </div>
+
                                         </div>
 
-                                    </div>
-
-                                </fieldset>
+                                    </fieldset>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <center>
-                                <p:commandLink id="btReserva" actionListener="#{reservaMBean.confirmarReserva()}" 
-                                               process="@this" update="@all" 
-                                               class="btn btn-primary" global="false">
-                                    <i class="fa fa-check"></i> CONFIRMAR RESERVA
-                                </p:commandLink>
-                                
-                                <p:commandLink id="btReserva" actionListener="#{reservaMBean.cancelarReserva()}" 
-                                               class="btn btn-danger" global="false" style="margin-left: 5px;">
-                                    <i class="fa fa-close"></i> CANCELAR RESERVA
-                                </p:commandLink>
-                            </center>
-                        </div>
+                            <div class="row">
+                                <center>
+                                    <p:commandLink id="btConfirmaReserva" actionListener="#{reservaMBean.confirmarReserva()}" 
+                                                   process=":formReserva"  update=":formReserva"
+                                                   class="btn btn-primary" global="false">
+                                        <i class="fa fa-check"></i> CONFIRMAR RESERVA
+                                    </p:commandLink>
+
+                                    <h:outputLink value="#{facesContext.externalContext.requestContextPath}" class="btn btn-danger" style="margin-left: 5px;">
+                                        <i class="fa fa-close"></i> CANCELAR RESERVA
+                                    </h:outputLink>
+                                </center>
+                            </div>
+                        </h:panelGroup>
+
+                        <h:panelGroup layout="block" rendered="#{reservaMBean.reservaFinalizada == true}">
+                            <div class="row">
+                                <center>
+                                    <h:outputLink value="#{facesContext.externalContext.requestContextPath}" class="btn btn-success" style="margin-left: 5px;">
+                                        <i class="fa fa-home"></i> VOLTAR PÁGINA INICIAL
+                                    </h:outputLink>
+                                </center>
+                            </div>
+                        </h:panelGroup>
 
                     </div>
                 </h:panelGroup>

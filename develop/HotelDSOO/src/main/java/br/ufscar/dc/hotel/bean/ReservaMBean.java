@@ -5,6 +5,8 @@
  */
 package br.ufscar.dc.hotel.bean;
 
+import br.ufscar.dc.hotel.core.MyInterfaceEntity;
+import br.ufscar.dc.hotel.core.MyPersistence;
 import br.ufscar.dc.hotel.ejb.CidadeSession;
 import br.ufscar.dc.hotel.ejb.ReservaSession;
 import br.ufscar.dc.hotel.entity.Cidade;
@@ -17,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.context.Flash;
 import javax.faces.view.ViewScoped;
@@ -36,7 +39,12 @@ public class ReservaMBean implements Serializable {
     private int filtroTipoQuarto;
     private List<Quarto> quartosParaReserva;
     private Reserva reserva;
-    protected List<Cidade> cidades;
+    private List<Cidade> cidades;
+    private Cliente cliente;
+    private boolean reservaFinalizada;
+
+    @EJB
+    private MyPersistence myPersistence;
 
     @EJB
     private ReservaSession reservaSession;
@@ -56,6 +64,8 @@ public class ReservaMBean implements Serializable {
     public void init() {
         this.getQuartoSelecionadoParaReserva();
         this.cidades = cidadeSession.all();
+        this.cliente = new Cliente();
+        this.setReservaFinalizada(false);
     }
 
     public void getQuartoSelecionadoParaReserva() {
@@ -73,21 +83,30 @@ public class ReservaMBean implements Serializable {
     public String reservarQuarto(Quarto quarto) {
         Flash flash = FacesContext.getCurrentInstance().getExternalContext().getFlash();
         this.reserva = new Reserva();
-        this.reserva.setCliente(new Cliente());
         this.reserva.setQuarto(quarto);
         this.reserva.setDataChegada(filtroReservaChegada);
         this.reserva.setDataSaida(filtroReservaSaida);
+        this.reserva.setValorTotal(quarto.getValorDiaria());
         flash.put("reserva", reserva);
         return "pretty:reserve";
     }
-    
-    public void confirmarReserva(){
-        
+
+    public void confirmarReserva() {
+        boolean saveCliente = this.getMyPersistence().save((MyInterfaceEntity) this.cliente);
+        if (saveCliente) {
+            this.reserva.setCliente(this.cliente);
+            boolean save = this.getMyPersistence().save((MyInterfaceEntity) this.reserva);
+            if (save) {
+                this.setReservaFinalizada(true);
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao realizar reserva!", ""));
+            }
+        }
     }
-    
-    public String cancelarReserva(){
+
+    public String cancelarReserva() {
         return "pretty:index";
-    }    
+    }
 
     /**
      * @return the cidadeSession
@@ -214,6 +233,48 @@ public class ReservaMBean implements Serializable {
      */
     public void setReserva(Reserva reserva) {
         this.reserva = reserva;
+    }
+
+    /**
+     * @return the myPersistence
+     */
+    public MyPersistence getMyPersistence() {
+        return myPersistence;
+    }
+
+    /**
+     * @param myPersistence the myPersistence to set
+     */
+    public void setMyPersistence(MyPersistence myPersistence) {
+        this.myPersistence = myPersistence;
+    }
+
+    /**
+     * @return the cliente
+     */
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    /**
+     * @param cliente the cliente to set
+     */
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    /**
+     * @return the reservaFinalizada
+     */
+    public boolean isReservaFinalizada() {
+        return reservaFinalizada;
+    }
+
+    /**
+     * @param reservaFinalizada the reservaFinalizada to set
+     */
+    public void setReservaFinalizada(boolean reservaFinalizada) {
+        this.reservaFinalizada = reservaFinalizada;
     }
     //</editor-fold>
 

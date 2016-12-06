@@ -5,6 +5,7 @@
  */
 package br.ufscar.dc.hotel.entity;
 
+import br.ufscar.dc.hotel.core.MyInterfaceEntity;
 import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -22,7 +23,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "pais")
-public class Pais implements Serializable {
+public class Pais implements MyInterfaceEntity, Serializable {
 
     private static final long serialVersionUID = 1L;
     

@@ -5,6 +5,7 @@
  */
 package br.ufscar.dc.hotel.entity;
 
+import br.ufscar.dc.hotel.core.MyInterfaceEntity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -27,7 +28,7 @@ import javax.validation.constraints.NotNull;
  */
 @Entity
 @Table(name = "reserva")
-public class Reserva implements Serializable {
+public class Reserva implements MyInterfaceEntity, Serializable {
 
     private static final long serialVersionUID = 1L;
     

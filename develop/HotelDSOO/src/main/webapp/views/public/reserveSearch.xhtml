@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <p:outputLabel value="Saída" for="saida" />
                             <div class="col-3">
-                                <p:calendar tabindex="1"
+                                <p:calendar tabindex="0"
                                             styleClass="form-control-two"
                                             required="true"
                                             id="saida"
@@ -52,7 +52,7 @@
                         <div class="form-group">
                             <p:outputLabel value="Nº. Pessoas" for="pessoas" />
                             <div class="col-1">
-                                <p:inputMask tabindex="2"
+                                <p:inputMask tabindex="0"
                                              placeholder=" "
                                              class="form-control"
                                              required="true"
@@ -72,7 +72,7 @@
                             <div class="col-1">
                                 <h:selectOneMenu value="#{reservaMBean.filtroTipoQuarto}"
                                                  id="tipoQuarto" 
-                                                 tabindex="3"
+                                                 tabindex="0"
                                                  required="true"
                                                  requiredMessage="Tipo Quarto Obrigatório"
                                                  class="form-control">                                    
