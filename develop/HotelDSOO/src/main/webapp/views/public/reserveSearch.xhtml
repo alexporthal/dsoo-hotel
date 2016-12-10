@@ -70,7 +70,7 @@
                                              value="#{reservaMBean.filtroNumeroPessoas}" 
                                              requiredMessage="Número de Pessoas Obrigatório"
                                              mask="9?9999999">
-
+                                        <p:ajax event="blur"  />
                                 </p:inputMask>
                             </div>
                             <h:message for="pessoas" class="help-block with-errors label label-danger" />                                                       
@@ -78,14 +78,16 @@
                         <div class="form-group">
                             <p:outputLabel value="Tipo Quarto" for="tipoQuarto" />
                             <div class="col-1">
-                                <h:selectOneMenu value="#{reservaMBean.filtroTipoQuarto}"
-                                                 id="tipoQuarto" 
+                                <h:selectOneMenu 
+                                                 id="tipoQuarto"
+                                                 value="#{reservaMBean.filtroTipoQuarto}"
                                                  tabindex="0"
                                                  required="true"
                                                  requiredMessage="Tipo Quarto Obrigatório"
                                                  class="form-control">                                    
                                     <f:selectItem itemValue="0" itemLabel="Simples"/>
                                     <f:selectItem itemValue="1" itemLabel="Luxo"/>
+                                    <p:ajax event="blur"  />
                                 </h:selectOneMenu>
                             </div>
                             <h:message for="tipoQuarto" class="help-block with-errors label label-danger" />                                                       
@@ -97,7 +99,7 @@
                         </p:commandLink>
                     </center>
 
-                    <br/>
+                    <br/>   
 
                     <p:panel id="pnlQuartosParaReserva" rendered="#{reservaMBean.quartosParaReserva.size() > 0}">
 

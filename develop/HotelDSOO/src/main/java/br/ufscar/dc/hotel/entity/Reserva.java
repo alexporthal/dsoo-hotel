@@ -63,7 +63,12 @@ public class Reserva implements MyInterfaceEntity, Serializable {
     @JoinColumn(name = "fk_quarto", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Quarto quarto;
-
+    
+    //@Basic(optional = false)
+    //@NotNull
+    //@Column(name = "fk_quarto")
+    //private int fk_quarto;
+    
     public Reserva() {
     }
 
@@ -150,5 +155,4 @@ public class Reserva implements MyInterfaceEntity, Serializable {
     public String toString() {
         return "br.ufscar.dc.hotel.model.Reserva[ id=" + id + " ]";
     }
-    
 }

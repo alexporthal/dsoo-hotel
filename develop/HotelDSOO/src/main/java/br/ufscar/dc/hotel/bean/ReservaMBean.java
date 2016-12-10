@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -31,13 +31,17 @@ import javax.inject.Named;
  */
 @Named(value = "reservaMBean")
 @ViewScoped
+
 public class ReservaMBean implements Serializable {
 
     private Date filtroReservaChegada;
     private Date filtroReservaSaida;
+    private Date ReservadoChegada;
+    private Date ReservadoSaida;
     private int filtroNumeroPessoas;
     private int filtroTipoQuarto;
     private List<Quarto> quartosParaReserva;
+    private List<Reserva> quartosReservados;
     private Reserva reserva;
     private List<Cidade> cidades;
     private Cliente cliente;
@@ -53,7 +57,7 @@ public class ReservaMBean implements Serializable {
 
     @EJB
     protected CidadeSession cidadeSession;
-
+    
     public ReservaMBean() {
         this.quartosParaReserva = new ArrayList<>();
         this.filtroReservaChegada = new Date();
@@ -76,10 +80,10 @@ public class ReservaMBean implements Serializable {
     }
 
     public void pesquisarReserva() {
-        this.quartosParaReserva = reservaSession.buscarQuartosVagos(filtroReservaChegada,
-                filtroReservaSaida,
-                filtroNumeroPessoas,
-                filtroTipoQuarto);
+        this.quartosParaReserva = reservaSession.buscarQuartosVagos(this.filtroReservaChegada,
+                this.filtroReservaSaida,
+                this.filtroNumeroPessoas,
+                this.filtroTipoQuarto);
     }
 
     public String reservarQuarto(Quarto quarto) {
@@ -323,5 +327,47 @@ public class ReservaMBean implements Serializable {
         this.reservaBuscaEncontrada = reservaBuscaEncontrada;
     }
     //</editor-fold>
+
+    /**
+     * @return the quartosReservados
+     */
+    public List<Reserva> getQuartosReservados() {
+        return quartosReservados;
+    }
+
+    /**
+     * @param quartosReservados the quartosReservados to set
+     */
+    public void setQuartosReservados(List<Reserva> quartosReservados) {
+        this.quartosReservados = quartosReservados;
+    }
+
+    /**
+     * @return the ReservadoChegada
+     */
+    public Date getReservadoChegada() {
+        return ReservadoChegada;
+    }
+
+    /**
+     * @param ReservadoChegada the ReservadoChegada to set
+     */
+    public void setReservadoChegada(Date ReservadoChegada) {
+        this.ReservadoChegada = ReservadoChegada;
+    }
+
+    /**
+     * @return the ReservadoSaida
+     */
+    public Date getReservadoSaida() {
+        return ReservadoSaida;
+    }
+
+    /**
+     * @param ReservadoSaida the ReservadoSaida to set
+     */
+    public void setReservadoSaida(Date ReservadoSaida) {
+        this.ReservadoSaida = ReservadoSaida;
+    }
 
 }
